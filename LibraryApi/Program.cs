@@ -1,7 +1,9 @@
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using LibraryApi.Models;
+using System.Diagnostics;
+using LibraryApi.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Sqlite");
     opt.UseSqlite(connectionString);
+
+    opt.LogTo(m => Debug.WriteLine(m)).EnableSensitiveDataLogging(true);
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
