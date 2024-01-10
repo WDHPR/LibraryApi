@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryApi.Models;
+using LibraryApi.Extensions;
 
 namespace LibraryApi.Controllers
 {
@@ -19,7 +20,10 @@ namespace LibraryApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Author>>> GetAuthors()
         {
-            return await _context.Authors.ToListAsync();
+            return await _context.Authors
+                .Include(a => a.Books)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         // GET: api/Authors/5
@@ -70,8 +74,15 @@ namespace LibraryApi.Controllers
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Author>> PostAuthor(Author author)
+        public async Task<ActionResult<Author>> PostAuthor(CreateAuthorDTO authorDTO)
         {
+            var author = authorDTO.CreateAuthorFromDTO(_context);
+
+            if (author == null)
+            {
+                return BadRequest();
+            }
+
             _context.Authors.Add(author);
             await _context.SaveChangesAsync();
 

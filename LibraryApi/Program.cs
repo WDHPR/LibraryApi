@@ -22,6 +22,18 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.LogTo(m => Debug.WriteLine(m)).EnableSensitiveDataLogging(true);
 });
 
+// Set Azure SQL Database for production db
+/*builder.Services.AddDbContext<AppDbContext>(opt =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("AzureDb");
+    var connBuilder = new SqlConnectionStringBuilder(connectionString)
+    {
+        Password = builder.Configuration["AzureDbPassword"]
+    };
+    connectionString = connBuilder.ConnectionString;
+    opt.UseSqlServer(connectionString);
+});*/
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
