@@ -1,5 +1,25 @@
-﻿namespace LibraryApi.Extensions;
+﻿using LibraryApi.Models;
 
-public class RatingExtensions
+namespace LibraryApi.Extensions;
+
+public static class RatingExtensions
 {
+    public static Rating? CreateRatingFromDTO(this CreateRatingDTO ratingDTO, AppDbContext db)
+    {
+        var member = db.Members.Find(ratingDTO.MemberId);
+        var book = db.Books.Find(ratingDTO.BookId);
+
+        if (member == null || book == null)
+        {
+            return null;
+        }
+
+        return new Rating
+        {
+            Member = member,
+            Book = book,
+            RatingValue = ratingDTO.RatingValue,
+            Comment = ratingDTO.Comment
+        };
+    }
 }

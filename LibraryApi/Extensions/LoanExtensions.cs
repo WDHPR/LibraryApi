@@ -4,10 +4,12 @@ namespace LibraryApi.Extensions;
 
 public static class LoanExtensions
 {
-    public static Loan? CreateMemberFromDTO(this CreateLoanDTO loanDTO, AppDbContext db)
+    public static Loan? CreateLoanFromDTO(this CreateLoanDTO loanDTO, AppDbContext db)
     {
         var member = db.Members.Find(loanDTO.MemberId);
         var book = db.Books.Find(loanDTO.BookId);
+
+        //Throw error if book is already loaned out
 
         if(member == null || book == null)
         {
@@ -24,7 +26,7 @@ public static class LoanExtensions
         };
     }
 
-    public static void ReturnBook(Loan loan)
+    public static void EndLoan(this Loan loan)
     {
         loan.ReturnDate = DateOnly.FromDateTime(DateTime.Now);
         loan.Book.IsLoaned = false;

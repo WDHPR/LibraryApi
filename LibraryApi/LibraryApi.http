@@ -1,6 +1,81 @@
-@LibraryApi_HostAddress = http://localhost:5234
+@LibraryApi_HostAddress = https://localhost:7208
 
-GET {{LibraryApi_HostAddress}}/weatherforecast/
-Accept: application/json
+GET {{LibraryApi_HostAddress}}/api/authors
+
+###
+
+POST {{LibraryApi_HostAddress}}/api/authors
+Content-Type: application/json
+
+{
+  "firstName": "string",
+  "lastName": "string",
+  "bookIds": [
+    0
+  ]
+}
+
+###
+
+GET {{LibraryApi_HostAddress}}/api/books
+
+###
+
+POST {{LibraryApi_HostAddress}}/api/books
+Content-Type: application/json
+
+{
+  "isbn": 0,
+  "title": "string",
+  "publishedYear": 0,
+  "authorIds": [
+    0
+  ]
+}
+
+###
+
+GET {{LibraryApi_HostAddress}}/api/loans
+
+###
+
+POST {{LibraryApi_HostAddress}}/api/loans
+Content-Type: application/json
+
+{
+  "memberId": 0,
+  "bookId": 0
+}
+
+###
+
+GET {{LibraryApi_HostAddress}}/api/members
+
+###
+
+POST {{LibraryApi_HostAddress}}/api/members
+Content-Type: application/json
+
+{
+  "memberNr": 0,
+  "firstName": "string",
+  "lastName": "string"
+}
+
+###
+
+GET {{LibraryApi_HostAddress}}/api/ratings
+
+###
+
+POST {{LibraryApi_HostAddress}}/api/ratings
+Content-Type: application/json
+
+{
+  "memberId": 0,
+  "bookId": 0,
+  "ratingValue": 0,
+  "comment": "string"
+}
 
 ###

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryApi.Models;
+using LibraryApi.Extensions;
 
 namespace LibraryApi.Controllers
 {
@@ -24,7 +25,7 @@ namespace LibraryApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Rating>>> GetRatings()
         {
-            return await _context.Ratings.ToListAsync();
+            return await _context.Ratings.AsNoTracking().ToListAsync();
         }
 
         // GET: api/Ratings/5
@@ -75,8 +76,15 @@ namespace LibraryApi.Controllers
         // POST: api/Ratings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Rating>> PostRating(Rating rating)
+        public async Task<ActionResult<Rating>> PostRating(CreateRatingDTO ratingDTO)
         {
+            var rating = ratingDTO.CreateRatingFromDTO(_context);
+
+            if (rating == null)
+            {
+                return BadRequest();
+            }
+
             _context.Ratings.Add(rating);
             await _context.SaveChangesAsync();
 

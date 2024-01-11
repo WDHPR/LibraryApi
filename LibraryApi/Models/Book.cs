@@ -7,7 +7,6 @@ public class Book
     public string Title { get; set; } = null!;
     public List<Author>? Authors { get; set; }
     public DateOnly Published { get; set; }
-    // bool for loan status? maybe unnecessary
     public bool IsLoaned { get; set; } = false;
 }
 

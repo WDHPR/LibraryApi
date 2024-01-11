@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryApi.Models;
+using LibraryApi.Extensions;
 
 namespace LibraryApi.Controllers
 {
@@ -24,7 +25,7 @@ namespace LibraryApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Member>>> GetMembers()
         {
-            return await _context.Members.ToListAsync();
+            return await _context.Members.AsNoTracking().ToListAsync();
         }
 
         // GET: api/Members/5
@@ -75,8 +76,15 @@ namespace LibraryApi.Controllers
         // POST: api/Members
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Member>> PostMember(Member member)
+        public async Task<ActionResult<Member>> PostMember(CreateMemberDTO memberDTO)
         {
+            var member = memberDTO.CreateMemberFromDTO();
+
+            if(member == null)
+            {
+                return BadRequest();
+            }
+
             _context.Members.Add(member);
             await _context.SaveChangesAsync();
 
