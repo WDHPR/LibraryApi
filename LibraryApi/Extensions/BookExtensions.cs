@@ -8,16 +8,13 @@ public static class BookExtensions
     {
         var published = new DateOnly(bookDTO.PublishedYear, 1, 1);
         var authors = new List<Author>();
-
-        if (bookDTO.AuthorIds != null)
+                
+        foreach (var id in bookDTO.AuthorIds)
         {
-            foreach (var id in bookDTO.AuthorIds)
-            {
-                // Add error handling in case author doesn't exist
-                // Or move this part to the controller as async
-                authors.Add(db.Authors.First(a => a.Id == id));
-            }
-        }
+            // Add error handling in case author doesn't exist
+            // Or move this part to the controller as async
+            authors.Add(db.Authors.First(a => a.Id == id));
+        }    
 
         return new Book
         {

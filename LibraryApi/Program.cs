@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-// Set SqLite Database for development database
+// Set SqLite Database for testing
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Sqlite");
@@ -22,7 +22,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.LogTo(m => Debug.WriteLine(m)).EnableSensitiveDataLogging(true);
 });
 
-// Set Azure SQL Database for production db
+// Set Azure SQL Database
 /*
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {

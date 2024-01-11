@@ -93,11 +93,17 @@ namespace LibraryApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAuthor(int id)
         {
-            var author = await _context.Authors.FindAsync(id);
+            var author = await _context.Authors
+                .Include(a => a.Books)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
             if (author == null)
             {
                 return NotFound();
             }
+
+            if(author.Books.Count > 0)
+                return BadRequest("Author has books");
 
             _context.Authors.Remove(author);
             await _context.SaveChangesAsync();

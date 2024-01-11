@@ -8,11 +8,8 @@ POST {{LibraryApi_HostAddress}}/api/authors
 Content-Type: application/json
 
 {
-  "firstName": "string",
-  "lastName": "string",
-  "bookIds": [
-    0
-  ]
+  "firstName": "Trevor",
+  "lastName": "Noah"
 }
 
 ###
@@ -25,11 +22,11 @@ POST {{LibraryApi_HostAddress}}/api/books
 Content-Type: application/json
 
 {
-  "isbn": 0,
-  "title": "string",
-  "publishedYear": 0,
+  "isbn": 123456789,
+  "title": "Born a Crime",
+  "publishedYear": 2016,
   "authorIds": [
-    0
+    1
   ]
 }
 

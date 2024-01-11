@@ -113,8 +113,6 @@ namespace LibraryApi.Controllers
 
             _context.Entry(loan).State = EntityState.Modified;
 
-            _context.Entry(loan).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
