@@ -4,6 +4,10 @@ GET {{LibraryApi_HostAddress}}/api/authors
 
 ###
 
+GET {{LibraryApi_HostAddress}}/api/authors/1
+
+###
+
 POST {{LibraryApi_HostAddress}}/api/authors
 Content-Type: application/json
 

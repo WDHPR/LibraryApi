@@ -44,37 +44,6 @@ namespace LibraryApi.Controllers
             return loan;
         }
 
-        // PUT: api/Loans/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutLoan(int id, Loan loan)
-        {
-            if (id != loan.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(loan).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LoanExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
         // POST: api/Loans
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -94,7 +63,7 @@ namespace LibraryApi.Controllers
         }
 
         //PATCH: api/Loans/5
-        [HttpPatch("{id}")]
+        [HttpPatch("return/{id}")]
         public async Task<IActionResult> ReturnLoan(int id)
         {
             var loan = await _context.Loans
@@ -105,9 +74,6 @@ namespace LibraryApi.Controllers
             {
                 return BadRequest();
             }
-
-            //loan.ReturnDate = DateOnly.FromDateTime(DateTime.Now);
-            //loan.Book.IsLoaned = false;
 
             loan.EndLoan();
 
@@ -128,22 +94,6 @@ namespace LibraryApi.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
-        }
-
-        // DELETE: api/Loans/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLoan(int id)
-        {
-            var loan = await _context.Loans.FindAsync(id);
-            if (loan == null)
-            {
-                return NotFound();
-            }
-
-            _context.Loans.Remove(loan);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }

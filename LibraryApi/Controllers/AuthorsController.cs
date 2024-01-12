@@ -30,12 +30,13 @@ namespace LibraryApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Author>> GetAuthor(int id)
         {
-            var author = await _context.Authors.FindAsync(id);
+            var author = await _context.Authors
+                .Include(a => a.Books)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             if (author == null)
-            {
                 return NotFound();
-            }
 
             return author;
         }
@@ -43,12 +44,12 @@ namespace LibraryApi.Controllers
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAuthor(int id, Author author)
+        public async Task<IActionResult> PutAuthor(int id, CreateAuthorDTO authorDTO)
         {
+            var author = authorDTO.CreateAuthorFromDTO(_context);
+
             if (id != author.Id)
-            {
                 return BadRequest();
-            }
 
             _context.Entry(author).State = EntityState.Modified;
 
@@ -79,9 +80,7 @@ namespace LibraryApi.Controllers
             var author = authorDTO.CreateAuthorFromDTO(_context);
 
             if (author == null)
-            {
                 return BadRequest();
-            }
 
             _context.Authors.Add(author);
             await _context.SaveChangesAsync();
@@ -98,9 +97,7 @@ namespace LibraryApi.Controllers
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (author == null)
-            {
                 return NotFound();
-            }
 
             if(author.Books.Count > 0)
                 return BadRequest("Author has books");
