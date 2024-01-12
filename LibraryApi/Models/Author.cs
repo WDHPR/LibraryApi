@@ -14,3 +14,17 @@ public class CreateAuthorDTO
     public string LastName { get; set; } = null!;
     public int[]? BookIds { get; set; }
 }
+
+public class AuthorDTO
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = null!;
+    public List<MinimalBookDTO>? Books { get; set; }
+}
+
+//DTO with minimal information for use with BookDTO
+public class MinimalAuthorDTO
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = null!;
+}

@@ -16,3 +16,12 @@ public class CreateRatingDTO
     public int RatingValue { get; set; }
     public string? Comment { get; set; }
 }
+
+public class RatingDTO
+{
+    public int Id { get; set; }
+    public MemberDTO Member { get; set; } = null!;
+    public MinimalBookDTO Book { get; set; } = null!;
+    public int RatingValue { get; set; }
+    public string? Comment { get; set; }
+}

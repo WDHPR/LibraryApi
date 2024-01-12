@@ -23,14 +23,20 @@ namespace LibraryApi.Controllers
 
         // GET: api/Members
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Member>>> GetMembers()
+        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMembers()
         {
-            return await _context.Members.AsNoTracking().ToListAsync();
+            var memberDTOs = new List<MemberDTO>();
+            var members = await _context.Members.AsNoTracking().ToListAsync();
+
+            foreach (var m in members)
+                memberDTOs.Add(m.MemberToDTO());
+
+            return memberDTOs;
         }
 
         // GET: api/Members/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Member>> GetMember(int id)
+        public async Task<ActionResult<MemberDTO>> GetMember(int id)
         {
             var member = await _context.Members.FindAsync(id);
 
@@ -39,7 +45,7 @@ namespace LibraryApi.Controllers
                 return NotFound();
             }
 
-            return member;
+            return member.MemberToDTO();
         }
 
         // POST: api/Members
@@ -57,7 +63,7 @@ namespace LibraryApi.Controllers
             _context.Members.Add(member);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMember", new { id = member.Id }, member);
+            return CreatedAtAction("GetMember", new { id = member.Id }, member.MemberToDTO());
         }
 
         // DELETE: api/Members/5

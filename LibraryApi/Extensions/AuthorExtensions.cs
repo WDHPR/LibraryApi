@@ -12,8 +12,6 @@ public static class AuthorExtensions
         {
             foreach(var id in authorDTO.BookIds)
             {
-                // Add error handling in case book doesn't exist
-                // Or move this part to the controller as async
                 books.Add(db.Books.First(b => b.Id == id));
             }
         }
@@ -22,6 +20,25 @@ public static class AuthorExtensions
             FirstName = authorDTO.FirstName,
             LastName = authorDTO.LastName,
             Books = books
+        };
+    }
+
+    public static AuthorDTO AuthorToDTO(this Author author)
+    {
+        return new AuthorDTO
+        {
+            Id = author.Id,
+            Name = $"{author.FirstName} {author.LastName}",
+            Books = author.Books?.Select(b => b.BookToMinimalDTO()).ToList()
+        };
+    }
+
+    public static MinimalAuthorDTO AuthorToMinimalDTO(this Author author)
+    {
+        return new MinimalAuthorDTO
+        {
+            Id = author.Id,
+            Name = $"{author.FirstName} {author.LastName}"
         };
     }
 }

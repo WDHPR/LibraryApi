@@ -9,20 +9,20 @@ using Microsoft.Data.SqlClient;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers()
-    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddControllers();
+//    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 // Set SqLite Database for testing
-/*builder.Services.AddDbContext<AppDbContext>(opt =>
+builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Sqlite");
     opt.UseSqlite(connectionString);
 
     opt.LogTo(m => Debug.WriteLine(m)).EnableSensitiveDataLogging(true);
 });
-*/
+
 // Set Azure SQL Database
-builder.Services.AddDbContext<AppDbContext>(opt =>
+/*builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     var connectionString = builder.Configuration.GetConnectionString("AzureDb");
     var connBuilder = new SqlConnectionStringBuilder(connectionString)
@@ -32,7 +32,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     connectionString = connBuilder.ConnectionString;
     opt.UseSqlServer(connectionString);
 });
-
+*/
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

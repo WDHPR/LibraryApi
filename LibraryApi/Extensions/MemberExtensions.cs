@@ -13,4 +13,14 @@ public static class MemberExtensions
             LastName = memberDTO.LastName
         };
     }
+
+    public static MemberDTO MemberToDTO(this Member member)
+    {
+        return new MemberDTO
+        {
+            Id = member.Id,
+            MemberNr = member.MemberNr,
+            Name = $"{member.FirstName} {member.LastName}"
+        };
+    }
 }

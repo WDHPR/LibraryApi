@@ -22,4 +22,26 @@ public static class BookExtensions
             Published = published
         };
     }
+
+    public static BookDTO BookToDTO(this Book book)
+    {
+        return new BookDTO
+        {
+            Id = book.Id,
+            Isbn = book.Isbn,
+            Title = book.Title,
+            Authors = book.Authors?.Select(a => a.AuthorToMinimalDTO()).ToList(),
+            PublishedYear = (short)book.Published.Year,
+            IsLoaned = book.IsLoaned
+        };
+    }
+
+    public static MinimalBookDTO BookToMinimalDTO(this Book book)
+    {
+        return new MinimalBookDTO
+        {
+            Id = book.Id,
+            Title = book.Title
+        };
+    }
 }

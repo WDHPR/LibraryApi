@@ -23,18 +23,24 @@ namespace LibraryApi.Controllers
 
         // GET: api/Ratings
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Rating>>> GetRatings()
+        public async Task<ActionResult<IEnumerable<RatingDTO>>> GetRatings()
         {
-            return await _context.Ratings
+            var ratingDTOs = new List<RatingDTO>();
+            var ratings = await _context.Ratings
                 .Include(r => r.Book)
                 .Include(r => r.Member)
                 .AsNoTracking()
                 .ToListAsync();
+
+            foreach (var r in ratings)
+                ratingDTOs.Add(r.RatingToDTO());
+
+            return ratingDTOs;
         }
 
         // GET: api/Ratings/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Rating>> GetRating(int id)
+        public async Task<ActionResult<RatingDTO>> GetRating(int id)
         {
             var rating = await _context.Ratings
                 .Include(r => r.Book)
@@ -47,7 +53,7 @@ namespace LibraryApi.Controllers
                 return NotFound();
             }
 
-            return rating;
+            return rating.RatingToDTO();
         }
 
         // POST: api/Ratings
@@ -65,7 +71,7 @@ namespace LibraryApi.Controllers
             _context.Ratings.Add(rating);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRating", new { id = rating.Id }, rating);
+            return CreatedAtAction("GetRating", new { id = rating.Id }, rating.RatingToDTO());
         }
 
         // DELETE: api/Ratings/5

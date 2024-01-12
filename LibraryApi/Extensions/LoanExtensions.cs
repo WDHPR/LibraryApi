@@ -26,6 +26,18 @@ public static class LoanExtensions
         };
     }
 
+    public static LoanDTO LoanToDTO(this Loan loan)
+    {
+        return new LoanDTO
+        {
+            Id = loan.Id,
+            Member = loan.Member.MemberToDTO(),
+            Book = loan.Book.BookToMinimalDTO(),
+            LoanDate = loan.LoanDate.ToString("yyyy-MM-dd"),
+            ReturnDate = loan.ReturnDate?.ToString("yyyy-MM-dd")
+        };
+    }
+
     public static void EndLoan(this Loan loan)
     {
         loan.ReturnDate = DateOnly.FromDateTime(DateTime.Now);

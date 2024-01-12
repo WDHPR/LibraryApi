@@ -18,13 +18,19 @@ namespace LibraryApi.Controllers
 
         // GET: api/Loans
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Loan>>> GetLoans()
+        public async Task<ActionResult<IEnumerable<LoanDTO>>> GetLoans()
         {
-            return await _context.Loans
+            var LoanDTOs = new List<LoanDTO>();
+            var loans = await _context.Loans
                 .Include(l => l.Member)
                 .Include(l => l.Book)
                 .AsNoTracking()
                 .ToListAsync();
+
+            foreach (var l in loans)
+                LoanDTOs.Add(l.LoanToDTO());
+
+            return LoanDTOs;
         }
 
         //Add GET for active loans only
@@ -32,7 +38,7 @@ namespace LibraryApi.Controllers
 
         // GET: api/Loans/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Loan>> GetLoan(int id)
+        public async Task<ActionResult<LoanDTO>> GetLoan(int id)
         {
             var loan = await _context.Loans
                 .Include(l => l.Member)
@@ -45,7 +51,7 @@ namespace LibraryApi.Controllers
                 return NotFound();
             }
 
-            return loan;
+            return loan.LoanToDTO();
         }
 
         // POST: api/Loans
@@ -63,7 +69,7 @@ namespace LibraryApi.Controllers
             _context.Loans.Add(loan);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLoan", new { id = loan.Id }, loan);
+            return CreatedAtAction("GetLoan", new { id = loan.Id }, loan.LoanToDTO());
         }
 
         //PATCH: api/Loans/return/5

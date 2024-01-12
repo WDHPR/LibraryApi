@@ -14,3 +14,12 @@ public class CreateLoanDTO
     public int MemberId { get; set; }
     public int BookId { get; set; }
 }
+
+public class LoanDTO
+{
+    public int Id { get; set; }
+    public MemberDTO Member { get; set; } = null!;
+    public MinimalBookDTO Book { get; set; } = null!;
+    public string LoanDate { get; set; } = null!;
+    public string? ReturnDate { get; set; }
+}

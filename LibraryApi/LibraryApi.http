@@ -105,7 +105,7 @@ Content-Type: application/json
   "memberId": 1,
   "bookId": 1,
   "ratingValue": 10,
-  "comment": "Great read"
+  "comment": "This is a great book!"
 }
 
 ###

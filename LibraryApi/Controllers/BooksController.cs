@@ -23,17 +23,23 @@ namespace LibraryApi.Controllers
 
         // GET: api/Books
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<BookDTO>>> GetBooks()
         {
-            return await _context.Books
+            var bookDTOs = new List<BookDTO>();
+            var books = await _context.Books
                 .Include(b => b.Authors)
                 .AsNoTracking()
                 .ToListAsync();
+
+            foreach (var b in books)
+                bookDTOs.Add(b.BookToDTO());
+
+            return bookDTOs;
         }
 
         // GET: api/Books/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> GetBook(int id)
+        public async Task<ActionResult<BookDTO>> GetBook(int id)
         {
             var book = await _context.Books
                 .Include(b => b.Authors)
@@ -45,7 +51,7 @@ namespace LibraryApi.Controllers
                 return NotFound();
             }
 
-            return book;
+            return book.BookToDTO();
         }
 
         // POST: api/Books
@@ -63,7 +69,7 @@ namespace LibraryApi.Controllers
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBook", new { id = book.Id }, book);
+            return CreatedAtAction("GetBook", new { id = book.Id }, book.BookToDTO());
         }
 
         // DELETE: api/Books/5

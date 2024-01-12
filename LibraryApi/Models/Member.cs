@@ -14,3 +14,10 @@ public class CreateMemberDTO
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
 }
+
+public class MemberDTO
+{
+    public int Id { get; set; }
+    public int MemberNr { get; set; }
+    public string Name { get; set; } = null!;
+}

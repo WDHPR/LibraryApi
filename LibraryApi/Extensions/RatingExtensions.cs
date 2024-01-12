@@ -22,4 +22,16 @@ public static class RatingExtensions
             Comment = ratingDTO.Comment
         };
     }
+
+    public static RatingDTO RatingToDTO(this Rating rating)
+    {
+        return new RatingDTO
+        {
+            Id = rating.Id,
+            Member = rating.Member.MemberToDTO(),
+            Book = rating.Book.BookToMinimalDTO(),
+            RatingValue = rating.RatingValue,
+            Comment = rating.Comment
+        };
+    }
 }
