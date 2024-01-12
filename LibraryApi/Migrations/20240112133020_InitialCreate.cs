@@ -31,7 +31,7 @@ namespace LibraryApi.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Isbn = table.Column<int>(type: "INTEGER", nullable: false),
+                    Isbn = table.Column<string>(type: "TEXT", nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: false),
                     Published = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     IsLoaned = table.Column<bool>(type: "INTEGER", nullable: false)

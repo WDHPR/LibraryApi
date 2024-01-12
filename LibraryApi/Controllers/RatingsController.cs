@@ -25,14 +25,22 @@ namespace LibraryApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Rating>>> GetRatings()
         {
-            return await _context.Ratings.AsNoTracking().ToListAsync();
+            return await _context.Ratings
+                .Include(r => r.Book)
+                .Include(r => r.Member)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         // GET: api/Ratings/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Rating>> GetRating(int id)
         {
-            var rating = await _context.Ratings.FindAsync(id);
+            var rating = await _context.Ratings
+                .Include(r => r.Book)
+                .Include(r => r.Member)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(r => r.Id == id);
 
             if (rating == null)
             {
@@ -40,37 +48,6 @@ namespace LibraryApi.Controllers
             }
 
             return rating;
-        }
-
-        // PUT: api/Ratings/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRating(int id, Rating rating)
-        {
-            if (id != rating.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(rating).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RatingExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         // POST: api/Ratings
@@ -105,11 +82,6 @@ namespace LibraryApi.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool RatingExists(int id)
-        {
-            return _context.Ratings.Any(e => e.Id == id);
         }
     }
 }

@@ -34,7 +34,11 @@ namespace LibraryApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Loan>> GetLoan(int id)
         {
-            var loan = await _context.Loans.FindAsync(id);
+            var loan = await _context.Loans
+                .Include(l => l.Member)
+                .Include(l => l.Book)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(l => l.Id == id);
 
             if (loan == null)
             {
@@ -62,7 +66,7 @@ namespace LibraryApi.Controllers
             return CreatedAtAction("GetLoan", new { id = loan.Id }, loan);
         }
 
-        //PATCH: api/Loans/5
+        //PATCH: api/Loans/return/5
         [HttpPatch("return/{id}")]
         public async Task<IActionResult> ReturnLoan(int id)
         {

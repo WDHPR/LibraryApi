@@ -1,10 +1,7 @@
 @LibraryApi_HostAddress = https://localhost:7208
 
+
 GET {{LibraryApi_HostAddress}}/api/authors
-
-###
-
-GET {{LibraryApi_HostAddress}}/api/authors/1
 
 ###
 
@@ -18,6 +15,14 @@ Content-Type: application/json
 
 ###
 
+GET {{LibraryApi_HostAddress}}/api/authors/1
+
+###
+
+DELETE {{LibraryApi_HostAddress}}/api/authors/1
+
+###
+
 GET {{LibraryApi_HostAddress}}/api/books
 
 ###
@@ -26,13 +31,43 @@ POST {{LibraryApi_HostAddress}}/api/books
 Content-Type: application/json
 
 {
-  "isbn": 123456789,
+  "isbn": "123456789",
   "title": "Born a Crime",
   "publishedYear": 2016,
   "authorIds": [
     1
   ]
 }
+
+###
+
+GET {{LibraryApi_HostAddress}}/api/books/1
+
+###
+
+DELETE {{LibraryApi_HostAddress}}/api/books/1
+
+###
+GET {{LibraryApi_HostAddress}}/api/members
+
+###
+
+POST {{LibraryApi_HostAddress}}/api/members
+Content-Type: application/json
+
+{
+  "memberNr": 123456,
+  "firstName": "Jason",
+  "lastName": "Bourne"
+}
+
+###
+
+GET {{LibraryApi_HostAddress}}/api/members/1
+
+###
+
+DELETE {{LibraryApi_HostAddress}}/api/members/1
 
 ###
 
@@ -44,26 +79,20 @@ POST {{LibraryApi_HostAddress}}/api/loans
 Content-Type: application/json
 
 {
-  "memberId": 0,
-  "bookId": 0
+  "memberId": 1,
+  "bookId": 1
 }
 
 ###
 
-GET {{LibraryApi_HostAddress}}/api/members
+GET {{LibraryApi_HostAddress}}/api/loans/1
 
 ###
 
-POST {{LibraryApi_HostAddress}}/api/members
-Content-Type: application/json
-
-{
-  "memberNr": 0,
-  "firstName": "string",
-  "lastName": "string"
-}
+PATCH {{LibraryApi_HostAddress}}/api/loans/return/1
 
 ###
+
 
 GET {{LibraryApi_HostAddress}}/api/ratings
 
@@ -73,10 +102,18 @@ POST {{LibraryApi_HostAddress}}/api/ratings
 Content-Type: application/json
 
 {
-  "memberId": 0,
-  "bookId": 0,
-  "ratingValue": 0,
-  "comment": "string"
+  "memberId": 1,
+  "bookId": 1,
+  "ratingValue": 10,
+  "comment": "Great read"
 }
+
+###
+
+GET {{LibraryApi_HostAddress}}/api/ratings/1
+
+###
+
+DELETE {{LibraryApi_HostAddress}}/api/ratings/1
 
 ###

@@ -60,8 +60,9 @@ namespace LibraryApi.Migrations
                     b.Property<bool>("IsLoaned")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Isbn")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Isbn")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<DateOnly>("Published")
                         .HasColumnType("TEXT");

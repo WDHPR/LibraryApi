@@ -11,8 +11,6 @@ public static class BookExtensions
                 
         foreach (var id in bookDTO.AuthorIds)
         {
-            // Add error handling in case author doesn't exist
-            // Or move this part to the controller as async
             authors.Add(db.Authors.First(a => a.Id == id));
         }    
 

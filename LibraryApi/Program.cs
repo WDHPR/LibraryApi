@@ -4,26 +4,24 @@ using System.Text.Json.Serialization;
 using LibraryApi.Models;
 using System.Diagnostics;
 using LibraryApi.Controllers;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Json serialization ignores looping references in Team/Players
-// Alternative to do later: solve with DTOs
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 // Set SqLite Database for testing
-builder.Services.AddDbContext<AppDbContext>(opt =>
+/*builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Sqlite");
     opt.UseSqlite(connectionString);
 
     opt.LogTo(m => Debug.WriteLine(m)).EnableSensitiveDataLogging(true);
 });
-
+*/
 // Set Azure SQL Database
-/*
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     var connectionString = builder.Configuration.GetConnectionString("AzureDb");
@@ -34,7 +32,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     connectionString = connBuilder.ConnectionString;
     opt.UseSqlServer(connectionString);
 });
-*/
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

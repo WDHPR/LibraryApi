@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240111133317_ChangedBooks")]
-    partial class ChangedBooks
+    [Migration("20240112133020_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,8 +63,9 @@ namespace LibraryApi.Migrations
                     b.Property<bool>("IsLoaned")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Isbn")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Isbn")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<DateOnly>("Published")
                         .HasColumnType("TEXT");
