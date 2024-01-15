@@ -31,7 +31,7 @@ POST {{LibraryApi_HostAddress}}/api/books
 Content-Type: application/json
 
 {
-  "isbn": "123456789",
+  "isbn": "9781473635302",
   "title": "Born a Crime",
   "publishedYear": 2016,
   "authorIds": [

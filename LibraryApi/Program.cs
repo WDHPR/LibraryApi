@@ -10,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-//    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 // Set SqLite Database for testing
 builder.Services.AddDbContext<AppDbContext>(opt =>
@@ -44,8 +43,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureDeleted();
-    db.Database.EnsureCreated();
+    //db.Database.EnsureDeleted();
+    //db.Database.EnsureCreated();
 }
 
 

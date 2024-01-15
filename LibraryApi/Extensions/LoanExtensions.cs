@@ -9,12 +9,8 @@ public static class LoanExtensions
         var member = db.Members.Find(loanDTO.MemberId);
         var book = db.Books.Find(loanDTO.BookId);
 
-        //Throw error if book is already loaned out
-
-        if(member == null || book == null)
-        {
+        if (member == null || book == null || book.IsLoaned)
             return null;
-        }
 
         book.IsLoaned = true;
 
